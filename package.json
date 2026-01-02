@@ -3,13 +3,11 @@
   "version": "1.0.0",
   "description": "Imam Abdullahi Maliki Family Tree Application",
   "scripts": {
-    "build": "tsc && node build.js && node scripts/copy-html.js",
-    "watch": "tsc --watch",
-    "dev": "tsc --watch",
-    "vercel-build": "npm run build"
+    "start": "serve public",
+    "vercel-build": ""
   },
   "devDependencies": {
-    "typescript": "^5.3.3"
+    "serve": "^14.2.5"
   },
   "keywords": [
     "family-tree",
