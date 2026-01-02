@@ -1,0 +1,28 @@
+# Source files (TypeScript) - not needed in deployment
+src/
+dist/
+
+# Development files
+node_modules/
+*.log
+*.lock
+
+# Build scripts
+scripts/
+build.js
+
+# Config files
+tsconfig.json
+.git/
+.gitignore
+
+# Documentation
+TYPESCRIPT_GUIDE.md
+
+# Root HTML/JS files (originals before copying to public/)
+/*.html
+/*.js
+!build.js
+
+# Keep only what's needed for Vercel
+# Vercel will run the build command and serve from public/

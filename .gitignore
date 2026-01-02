@@ -1,9 +1,18 @@
 node_modules/
 dist/
-*.js
-*.js.map
-*.d.ts
+
+# Compiled JS files in root (not needed in git, will be in public/)
+/*.js
+/*.js.map
+/*.d.ts
 !build.js
+!scripts/*.js
+
+# HTML files in root (originals, will be copied to public/)
+/*.html
 
 # Keep TypeScript source
 !src/**/*.ts
+
+# Keep public directory for Vercel
+!public/**/*

@@ -2,7 +2,33 @@
 
 A comprehensive web application for managing and visualizing the Imam Abdullahi Maliki family genealogy, featuring 12 progenitor lines across three compounds (Oke Odan, Iwaye, and Oke Yara).
 
-## Features
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone)
+
+## 🚀 Quick Start
+
+### Local Development
+
+```bash
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Serve locally
+npx serve public
+```
+
+Open http://localhost:3000
+
+### Deploy to Vercel
+
+See [VERCEL_DEPLOYMENT.md](VERCEL_DEPLOYMENT.md) for complete deployment instructions.
+
+```bash
+# Quick deploy
+vercel --prod
+```
 
 - **Interactive Family Tree Visualization** - Explore family connections across generations
 - **12 Progenitor Lineages** - Track descent from the founding ancestors
@@ -19,50 +45,71 @@ A comprehensive web application for managing and visualizing the Imam Abdullahi 
 - **HTML5 & Tailwind CSS** - Modern, responsive design
 - **Material Symbols** - Google's icon system
 - **LocalStorage** - Client-side data persistence
+- **Vercel** - Static site hosting and deployment
 
 ## Setup Instructions
 
 ### Prerequisites
 
 - Node.js (v18 or higher)
-- npm or yarn
+- Git (for deployment)
 
 ### Installation
 
-1. Install dependencies:
+1. Clone the repository:
+```bash
+git clone <your-repo-url>
+cd Famtree
+```
+
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-2. Build the TypeScript code:
+3. Build the project:
 ```bash
 npm run build
 ```
 
-3. For development with auto-recompilation:
+4. Serve locally:
 ```bash
-npm run watch
+npx serve public
 ```
 
-## Development
-
-The project structure:
+## Project Structure
 
 ```
 Famtree/
-├── src/              # TypeScript source files
-│   ├── types.ts      # Type definitions
-│   ├── theme.ts      # Theme management
-│   ├── auth.ts       # Authentication logic
-│   ├── add-member.ts # Add member form
-│   ├── dashboard.ts  # Dashboard functionality
-│   └── tree.ts       # Tree visualization
-├── assets/           # Images and media
-├── dist/             # Compiled JavaScript (generated)
-├── *.html            # Application pages
-├── tsconfig.json     # TypeScript configuration
+├── public/              # Static files for deployment (auto-generated)
+│   ├── *.html          # All HTML pages
+│   ├── *.js            # Compiled TypeScript
+│   └── assets/         # Images and media
+├── src/                 # TypeScript source files
+│   ├── types.ts        # Type definitions
+│   ├── theme.ts        # Theme management
+│   ├── auth.ts         # Authentication logic
+│   ├── add-member.ts   # Add member form
+│   ├── dashboard.ts    # Dashboard functionality
+│   ├── tree.ts         # Tree visualization
+│   └── index.ts        # Landing page
+├── dist/                # Compiled JavaScrprepare for deployment
+- `npm run watch` - Watch mode for development
+- `npm run dev` - Alias for watch mode
+- `npm run vercel-build` - Production build for Vercel
+
+### Deployment
+
+See [VERCEL_DEPLOYMENT.md](VERCEL_DEPLOYMENT.md) for complete Vercel deployment guide.
+
+Quick deploy:
+```bash
+vercel --prod
+```iguration
+├── tsconfig.json        # TypeScript configuration
+└── package.json   n     # TypeScript configuration
 └── package.json      # Project dependencies
-```
+The application consists of 9 pages (all in `public/` after build)
 
 ### Building
 

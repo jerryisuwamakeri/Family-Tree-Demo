@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LineageMap - Family Tree Visualization</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2634",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#2d3b4a",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"],
+                        "sans": ["Public Sans", "sans-serif"]
+                    },
+                    backgroundImage: {
+                        'dot-pattern': "radial-gradient(#cbd5e1 1px, transparent 1px)",
+                        'dot-pattern-dark': "radial-gradient(#2d3b4a 1px, transparent 1px)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #2d3b4a;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .tree-connector-v {
+            width: 2px;
+            background-color: #cbd5e1;
+        }
+        .dark .tree-connector-v {
+            background-color: #4b5563;
+        }
+        .tree-connector-h {
+            height: 2px;
+            background-color: #cbd5e1;
+        }
+        .dark .tree-connector-h {
+            background-color: #4b5563;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-gray-100 font-display overflow-hidden h-screen flex flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-4 lg:px-6 py-3 shrink-0 z-40 relative shadow-sm">
+<div class="flex items-center gap-3 lg:gap-4 text-[#111418] dark:text-white">
+<button onclick="toggleSidebar()" class="lg:hidden p-1.5 rounded-lg text-[#111418] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-[20px]">menu</span>
+</button>
+<div class="size-8 text-primary flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-2xl">account_tree</span>
+</div>
+<h2 class="text-[#111418] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">LineageMap</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<div class="hidden md:flex items-center gap-6">
+<a class="text-[#111418] dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="tree.html">My Tree</a>
+<a class="text-[#111418] dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="search.html">Discover</a>
+<a class="text-[#111418] dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="index.html">DNA Matches</a>
+</div>
+<div class="flex gap-3 items-center">
+<a href="add_member.html" class="hidden sm:flex h-9 cursor-pointer items-center justify-center rounded-lg bg-primary text-white text-sm font-bold px-4 hover:bg-blue-600 transition-colors shadow-sm shadow-blue-200 dark:shadow-none">
+<span class="material-symbols-outlined text-[20px] mr-2">add</span>
+<span>Add Member</span>
+</a>
+<button class="flex size-9 cursor-pointer items-center justify-center rounded-full bg-background-light dark:bg-surface-dark hover:bg-gray-200 dark:hover:bg-gray-700 text-[#111418] dark:text-gray-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 ring-2 ring-primary/30 cursor-pointer" style='background-image: url("assets/Ambassador Lamidi Alabi Maliki.jpeg");' title="Ambassador Lamidi Alabi Maliki"></div>
+</div>
+</div>
+</header>
+<main class="flex flex-1 overflow-hidden relative">
+<!-- Mobile Sidebar Overlay -->
+<div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 lg:hidden hidden" onclick="toggleSidebar()"></div>
+
+<div class="flex-1 flex flex-col relative bg-[#f8fafc] dark:bg-[#0f172a]">
+<div class="absolute inset-0 bg-dot-pattern dark:bg-dot-pattern-dark bg-[length:24px_24px] opacity-60 pointer-events-none"></div>
+<div class="absolute top-4 left-4 right-4 z-30 flex flex-col gap-3 pointer-events-none">
+<div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between pointer-events-auto">
+<div class="flex w-full sm:w-[320px] items-center rounded-xl bg-surface-light dark:bg-surface-dark shadow-lg border border-border-light dark:border-border-dark h-11 px-3 transition-all focus-within:ring-2 focus-within:ring-primary/20">
+<span class="material-symbols-outlined text-gray-400">search</span>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm text-[#111418] dark:text-white placeholder:text-gray-400 px-3" placeholder="Search lineage..."/>
+</div>
+<div class="flex gap-2 overflow-x-auto no-scrollbar">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-md px-3 lg:px-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<p class="text-[#111418] dark:text-gray-200 text-xs font-bold uppercase tracking-wider">Generations</p>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-md px-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<p class="text-[#111418] dark:text-gray-200 text-xs font-bold uppercase tracking-wider">Filters</p>
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary text-white shadow-md shadow-blue-500/30 px-4 hover:bg-blue-600 transition-colors">
+<span class="material-symbols-outlined text-[18px] filled">history_edu</span>
+<p class="text-white text-xs font-bold uppercase tracking-wider">Direct Lineage</p>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-auto cursor-grab active:cursor-grabbing p-20 flex justify-center items-start pt-32 min-w-full">
+<div class="flex flex-col items-center min-w-max scale-90 origin-top">
+<div class="flex flex-col items-center relative z-10">
+<div class="p-1 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-black/20 backdrop-blur-sm">
+<div class="flex gap-4">
+<div class="relative group w-64 bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg hover:shadow-xl border border-border-light dark:border-border-dark p-3 flex items-center gap-3 transition-all hover:-translate-y-1">
+<div class="size-12 rounded-full bg-gray-200 bg-cover bg-center shrink-0" data-alt="Black and white photo of an elderly man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBZc_Pjjr_x5Qte7UM6r7iiBUYMyRBRUJxiRbxiSo879Sq_UOG-YrfKIHFBBdnynbus_sOF8CkuDasHIBAfaAP_Ow070y6pIx1gR9SB7sioxpbzkVaFu8KYl4d-lRlh-wrpJEvCI8Pmdgsh9bMFKmfjFEuAL_bVJWylGw3anANnofIpnDtzaROzgajVbfJFWmymF-wCCqZaeGSjook9sZLv_KLnZPinO_ltDRG3P_eaFzad3Xma5J7Xx_Gq2CtUy5oC1abZwPC11Mds')"></div>
+<div class="flex flex-col min-w-0">
+<p class="text-sm font-bold text-[#111418] dark:text-white truncate">Mukaddam Abdul Raheem Adisa (Baba Kewu)</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">1920 - 1995</p>
+</div>
+<button class="absolute -bottom-3 left-1/2 -translate-x-1/2 size-6 rounded-full bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<div class="relative group w-64 bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg hover:shadow-xl border border-border-light dark:border-border-dark p-3 flex items-center gap-3 transition-all hover:-translate-y-1">
+<div class="size-12 rounded-full bg-gray-200 bg-cover bg-center shrink-0" data-alt="Black and white photo of an elderly woman" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBWJHxEoxYzhfMi4fDazBZoHNNwyKguSrd-z5tk7vEkOfeVROJ0oZe-vR4x8acjbrHq5OvnL8rMT9pcxywmpH75OStK1OCsfoU2A4MLJVPBY5DHu7jaxG-bI4G1MIDNk9C-wuSfHCP5vIF7uW8wpOeeU0z3NNEE8eBuw7ajFpOTxzCM8qBaXY4Un16rl3aio7R9rhs3FSIxaxIzzZGaAXXlwhrSZuPPeZVax-tq2gZzJlVp7qrcQ1MO2G8VXmDcjorZHigwg8qP-DQH')"></div>
+<div class="flex flex-col min-w-0">
+<p class="text-sm font-bold text-[#111418] dark:text-white truncate">Alhaja Ralia (Iya Owo)</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">1924 - 2001</p>
+</div>
+</div>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-surface-dark rounded-full p-1 border border-gray-200 dark:border-gray-600 shadow-sm z-20">
+<span class="material-symbols-outlined text-rose-400 text-sm block">favorite</span>
+</div>
+</div>
+<div class="h-12 w-px bg-gray-300 dark:bg-gray-600"></div>
+</div>
+<div class="flex items-start gap-12 relative">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[calc(100%-18rem)] h-px bg-gray-300 dark:bg-gray-600 -z-0"></div>
+<div class="flex flex-col items-center relative">
+<div class="h-8 w-px bg-gray-300 dark:bg-gray-600 mb-0"></div>
+<div class="relative w-64 bg-surface-light dark:bg-surface-dark rounded-xl shadow-md border border-border-light dark:border-border-dark p-3 flex items-center gap-3 opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+<div class="size-12 rounded-full bg-gray-200 bg-cover bg-center shrink-0" data-alt="Portrait of a middle aged man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCHTIFKRDxncsX-uQiF5geLM0jwroq2I-GYVbNjORyi_zXSjkPvEdaWi5xLKi74bE6yOqruBpb4UUV-Dv7fvQBZ0iwzXW3gzaHgvUmF7XR4xpDrOA9J0j37smBK-dL-X5pyBciOY6_D7dTIO7d_TO1jy-Qy_JmkClWDq7ivzhgnR7ygaCUrSiXUkihGLNIpcZovb6S_hivSMUQpm1qhBIdbbeZ3TqciGoiTrTo3oHlN2W37I8_-QyiVaxOQ4dDINxNJNiyZIBmVcKaB')"></div>
+<div class="flex flex-col min-w-0">
+<p class="text_sm font-bold text-[#111418] dark:text_white truncate">Oke Odan</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">1948 - 2018</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-center relative">
+<div class="h-8 w-px bg-primary mb-0"></div>
+<div class="p-1 rounded-2xl bg-primary/5 border-2 border-primary/20 backdrop-blur-sm relative">
+<div class="flex gap-4">
+<div class="relative w-64 bg-surface-light dark:bg-surface-dark rounded-xl shadow-xl ring-2 ring-primary p-3 flex items-center gap-3 z-10">
+<div class="absolute -top-1 -right-1 size-3 bg-primary rounded-full animate-pulse"></div>
+<div class="size-12 rounded-full bg-gray-200 bg-cover bg-center shrink-0" data-alt="Portrait of a senior man smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA9J4ZdrsdpGybvbDxUcOWokKCelvS6LP1PD5CpmbZHISjmhAdj4LnGMKR336L6gYBnBY0tn3yStTz8bcQE8uQw-eIAig9pRaKrkC8p7OxYPZkCEL_1p3EIXHSzPjR_gEAbqQUn6n3MdGo8O6YygxxGbb3wpbqNvV-rnwkxQIGln0emVS2HmAQ5pPf2FM1EOG6BZQ-IuSs_hD5dCkr0Vu7dOCvUMbZorimW6pNlXfIhErWkvCNoMkucgRefSCbXLc1I3OAGdYjC7L0k')"></div>
+<div class="flex flex-col min-w-0">
+<p class="text_sm font-bold text-[#111418] dark:text_white truncate">Iwaye</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">1950 - Present</p>
+</div>
+</div>
+<div class="relative w-64 bg-surface-light dark:bg-surface-dark rounded-xl shadow-md border border-border-light dark:border-border-dark p-3 flex items-center gap-3">
+<div class="size-12 rounded-full bg-gray-200 bg-cover bg-center shrink-0" data-alt="Portrait of a senior woman" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_CztISQnfR3iJVSoowhpE1kE5P1xuW1vxIC9JavGt8Gn4rp0pjdF0v3IMnhAS_pCAWmxXQt269QNHEEYWACLVYoQlQNg55kAK0WlQjqiJcx6l1Zk5pu6E78U1QTa0v5ru6C4FqzO9ovLOtyrsm2w545Ze-cQTTZHD-yHWpyVDBi_tlO20Rpvdjld19YkXWbRyLmacSJ7nPaKGYTtZP-Lhb96wEVpgd4loA4hwfYycwk2WcuAh7TsJUIBPWU6JNaQqLYKpylNoKJMj')"></div>
+<div class="flex flex-col min-w-0">
+<p class="text_sm font-bold text-[#111418] dark:text_white truncate">Oke Yara</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">1952 - Present</p>
+</div>
+</div>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-surface-dark rounded-full p-1 border border-primary/30 text-primary shadow-sm z-20">
+<span class="material-symbols-outlined text-sm block">favorite</span>
+</div>
+</div>
+<div class="h-12 w-px bg-primary"></div>
+<div class="flex items-start gap-8 relative">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[calc(100%-12rem)] h-px bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex flex-col items-center">
+<div class="h-8 w-px bg-gray-300 dark:bg-gray-600"></div>
+<div class="relative w-56 bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-border-light dark:border-border-dark p-2 flex items-center gap-2 hover:border-primary cursor-pointer transition-colors">
+<div class="size-10 rounded-full bg-gray-200 bg-cover bg-center shrink-0" data-alt="Portrait of a young man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDVkoWBlvQbqpxqsbww6QHUAG_rmyzvc4AyqwGFcfnx0JC5sSpai7OsSkgdgJ78XkfAXDmLVJ1IeSL0rNVMWdbMr2IK2R3HwNcWAJbLchWoosP6OSnbqPob5znyW03azUlqfUXhTMTBzMlaJm7Fk-5IUYBZ0xieaYtjFDwhkgm3sglGMgdw3JI3YfeKV-MiNQx3imwVbD7LKeJCYZz09heKVkp4OgItPIpNkVxTIzFrhpI_eTZpwGusp4WN0waBQuArm6u4BuSbeh0g')"></div>
+<div class="flex flex-col min-w-0">
+<p class="text_sm font-bold text-[#111418] dark:text_white truncate">Oke Odan Unit One</p>
+<p class="text-[10px] text-gray-500 uppercase font-semibold">1980</p>
+</div>
+</div>
+<div class="h-4 w-px bg-gray-300 dark:bg-gray-600"></div>
+<button class="size-6 rounded-full bg-white dark:bg-surface-dark border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-gray-50 text-gray-500">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<div class="flex flex-col items-center">
+<div class="h-8 w-px bg-primary"></div>
+<div class="relative w-56 bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg ring-2 ring-primary p-2 flex items-center gap-2 z-10 cursor-pointer">
+<div class="size-10 rounded-full bg-gray-200 bg-cover bg-center shrink-0" data-alt="Portrait of a woman" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA9RvM4H-Q3Lju6lif3yBbtMbkGNhaMv4KvumR8R3gtHwNJf5Eeev4wKpWmXkYxqYOBNsCBU-7m3wa4r3pbzdZ-saN3YyfLuFke--Xoytuvw8CIgvqW3Rhij38bFYj9MkAdLnbW_YRf1-IfxsrXdx54xNTijty8JXykhW0EdzRzCFmoKBaXdD3YPYnr4q5y3nvrYfnYeUXFDPmZAHzJ0_AhiAF9547YK0QiY_trD0RTLQNHczJcNimdmDqTqjxXQycZsklF22NG9IAR')"></div>
+<div class="flex flex-col min-w-0">
+<p class="text_sm font-bold text-[#111418] dark:text_white truncate">Oke Odan Unit Two</p>
+<p class="text-[10px] text-gray-500 uppercase font-semibold">1985</p>
+</div>
+</div>
+<div class="h-4 w-px bg-gray-300 dark:bg-gray-600"></div>
+<button class="size-6 rounded-full bg-white dark:bg-surface-dark border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-gray-50 text-gray-500">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<div class="flex items-start gap-4 mt-2 pt-2 border-t border-gray-300 dark:border-gray-600 relative">
+<div class="flex flex-col items-center">
+<div class="relative w-40 bg-surface-light dark:bg-surface-dark rounded-lg shadow-sm border border-border-light dark:border-border-dark p-2 flex items-center gap-2">
+<div class="size-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs font-bold">D1</div>
+<div class="flex flex-col min-w-0">
+<p class="text_xs font-bold text-[#111418] dark:text_white truncate">Oke Odan Child One</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-center">
+<div class="relative w-40 bg-surface-light dark:bg-surface-dark rounded-lg shadow-sm border border-border-light dark:border-border-dark p-2 flex items-center gap-2">
+<div class="size-8 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 text-xs font-bold">D2</div>
+<div class="flex flex-col min-w-0">
+<p class="text-xs font-bold text-[#111418] dark:text-white truncate">Unit Delta-Two</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-center">
+<div class="h-8 w-px bg-gray-300 dark:bg-gray-600"></div>
+<div class="relative w-56 bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-border-light dark:border-border-dark p-2 flex items-center gap-2 hover:border-primary cursor-pointer transition-colors">
+<div class="size-10 rounded-full bg-gray-200 bg-cover bg-center shrink-0" data-alt="Portrait of a man with beard" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBD9j-5Xhdklw5PU9ImO7dvn_Mdn78v8uBFLW4Uo300bPXkz3krxsST15y9xrh0vJKO-x76PVVbDmAq2TwVfiTeHajsIEPgbw88UUzeGapEu7FGF2aGQHWEpjLsCgkiCvsjWW5lWHRbWKSK2Hv2LbVyZ4sxIEjJzfPRfo_oa2j5ifkFUSTJxBP_vaYi68MTr6XFonc3jansC81YNPk-loeG9dCa-b5VrQLCN6CZ1kgppR3yjCJ3p-5gSWxGi6posfkBRTqdOKzljwRx')"></div>
+<div class="flex flex-col min-w-0">
+<p class="text_sm font-bold text-[#111418] dark:text_white truncate">Oke Odan Unit Three</p>
+<p class="text-[10px] text-gray-500 uppercase font-semibold">1990</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-center relative">
+<div class="h-8 w-px bg-gray-300 dark:bg-gray-600 mb-0"></div>
+<div class="relative w-64 bg-surface-light dark:bg-surface-dark rounded-xl shadow-md border border-border-light dark:border-border-dark p-3 flex items-center gap-3 opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+<div class="size-12 rounded-full bg-gray-200 bg-cover bg-center shrink-0" data-alt="Portrait of a woman with glasses" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAAxvnCUYmErKrSOK4cqCmqrlQFvhFc7wwFJxUWFtipGOVYwr7YpUmhmo5K7AkMAv_U0MZm7i1JyQIAR-jzWvCjbRvrzWnRY8PTo53ajVp-2BdUdsD5qJhJK8W5GS6LedNu3aOMcotQ4y0n9sw7O6P2P5axlWd4mK18kEiNK6JP3wGW1o59mwVX-gYmQP5MElNIkrx9ypaV9G-xu06B6A7gagqj6FejV6qXi1F-MKJBQUG1dCYIGJ_g3OSP-NvPWXGdli2VJLri6_sQ')"></div>
+<div class="flex flex-col min-w-0">
+<p class="text_sm font-bold text-[#111418] dark:text_white truncate">Oke Yara</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">1955 - Present</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-6 left-6 flex flex-col gap-2 z-30">
+<div class="bg-surface-light dark:bg-surface-dark rounded-lg shadow-lg border border-border-light dark:border-border-dark flex flex-col p-1">
+<button class="p-2 text-[#111418] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors" title="Zoom In">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="p-2 text-[#111418] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors" title="Zoom Out">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<div class="h-px w-full bg-border-light dark:bg-border-dark my-1"></div>
+<button class="p-2 text-[#111418] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors" title="Fit to Screen">
+<span class="material-symbols-outlined">center_focus_strong</span>
+</button>
+</div>
+<button class="bg-primary hover:bg-blue-600 text-white rounded-lg shadow-lg h-10 px-4 flex items-center justify-center gap-2 text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+<span class="hidden md:inline">Layout</span>
+</button>
+</div>
+<div class="absolute bottom-6 right-6 z-30 hidden md:block">
+<div class="w-48 h-32 bg-surface-light dark:bg-surface-dark rounded-lg shadow-lg border border-border-light dark:border-border-dark p-2 relative overflow-hidden">
+<p class="text-[10px] text-gray-400 mb-1">Navigator</p>
+<div class="absolute inset-2 bg-gray-100 dark:bg-gray-800 rounded opacity-50 flex items-center justify-center">
+<div class="flex flex-col items-center gap-1 opacity-30">
+<div class="w-2 h-2 bg-gray-500 rounded-full"></div>
+<div class="flex gap-1">
+<div class="w-2 h-2 bg-gray-500 rounded-full"></div>
+<div class="w-2 h-2 bg-gray-500 rounded-full"></div>
+<div class="w-2 h-2 bg-gray-500 rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-10 border-2 border-primary rounded-sm shadow-sm"></div>
+</div>
+</div>
+</div>
+<aside id="treeSidebar" class="w-[360px] bg-surface-light dark:bg-surface-dark border-l border-border-light dark:border-border-dark flex flex-col shrink-0 overflow-y-auto z-50 shadow-2xl fixed lg:relative inset-y-0 right-0 transform translate-x-full lg:translate-x-0 transition-transform duration-300">
+<div class="relative h-40">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Abstract blue geometric background pattern" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 60%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCuhraku31kchZQzkrc9bDsAFiGi3DNkBUFu5CYSrhaRmSOKQ2ebG6Mva1blK3-Oe_rEnFUt-BYIMq4BAXhDRSHOJ8nCtdSIPbD9Q9UdjFYSCYKSfaqhDX-vShMFFUG9pzrFhOQoSvDxmEEYTBI4oFQMhqvj9yU2Mm_h-QQUe__-anDdriQWevgxBB9Ezg-hm9yfFXIcZB1nAdpy_WJRW7Y8Ouv1Dqsi7G_Zt9g3hkjaOAqSrzGXlAydFqXen9HtxzB1tkJBE7vCnN_");'></div>
+<div class="absolute bottom-0 left-0 p-4 w-full">
+<div class="text-white opacity-80 text-xs font-bold uppercase tracking-wide mb-1">Selected Member</div>
+<div class="text-white text-2xl font-bold leading-tight">Iwaye Unit Two</div>
+</div>
+</div>
+<div class="px-6 py-4 flex gap-3 border-b border-border-light dark:border-border-dark">
+<button class="flex-1 bg-primary text-white h-9 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:bg-blue-600 transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+                    Edit Profile
+                </button>
+<button class="size-9 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" title="Share">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+<button class="size-9 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" title="More Options">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-6">
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-gray-50 dark:bg-[#1f2d3d] rounded-lg border border-border-light dark:border-gray-700">
+<div class="text-gray-500 dark:text-gray-400 text-xs mb-1">Birth</div>
+<div class="font-bold text-sm dark:text-white">May 12, 1985</div>
+<div class="text-gray-400 dark:text-gray-500 text-[10px]">Iwaye</div>
+</div>
+<div class="p-3 bg-gray-50 dark:bg-[#1f2d3d] rounded-lg border border-border-light dark:border-gray-700">
+<div class="text-gray-500 dark:text-gray-400 text-xs mb-1">Status</div>
+<div class="font-bold text-sm text-green-600 dark:text-green-400 flex items-center gap-1">
+<span class="size-2 rounded-full bg-green-500 block"></span>
+                            Living
+                        </div>
+<div class="text-gray-400 dark:text-gray-500 text-[10px]">Age: 38</div>
+</div>
+</div>
+<div>
+<h3 class="text-sm font-bold text-[#111418] dark:text-white mb-2 uppercase tracking-wide text-opacity-70">Biography</h3>
+<p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                        Resides in Iwaye and supports family records and community service. Married in 2012 and has two children, Oke Odan Child One and Oke Odan Child Two.
+                    </p>
+</div>
+<div>
+<h3 class="text-sm font-bold text-[#111418] dark:text-white mb-3 uppercase tracking-wide text-opacity-70">Immediate Family</h3>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors group">
+<div class="size-10 rounded-full bg-gray-200 bg-cover bg-center" data-alt="Portrait of Sector Beta" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBaX3VSk5KDiZuZXbW_LkGoJ8nBgRvsjyG8CzmIiGI9rrxGv60FojJl3rWZNVXRjBScqFmLzNPNxnnKKA7w7kBzUMB9tuKW05y7NbLban43hmkaXU8HXmm7hgo96lMq8qxSjH8XuP-0AlPL04ZTapD4s6e77FXG3jxojau6xfCZvkrCg5H9neChaoyjqj73NL7CVWLM1QC4M7jefHI6jBaIMZY8jxBBdENF48CeXHGFa9OaBt_oJBxOGkfIohuAmhW4RJhQLcHBmFHs')"></div>
+<div class="flex-1">
+<p class="text-sm font-bold text-[#111418] dark:text-white group-hover:text-primary transition-colors">Iwaye</p>
+<p class="text-xs text-gray-500">Father</p>
+</div>
+<span class="material-symbols-outlined text-gray-400 text-sm">chevron_right</span>
+</div>
+<div class="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors group">
+<div class="size-10 rounded-full bg-gray-200 bg-cover bg-center" data-alt="Portrait of Compound Origin" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDeMsj7i-kcg01A2z-JwSxk_v6kSvmaxDrOVkxXLcsp7HAcqi5ULfFivCGiYXFKEYIlXxGetch6PPUhKCALys5czv1wOSbqcleg8aqK_38LM1tfOSpEosH0jJq_I4j1h57Iewk6QBm_Jj0Im-OrL_KKV0e5TGXtUpOfeEXGwpoRh5kbVTWiUk4GJpo78hN6mwxD0Gtq75HmyjNTWeSfKtfiwXsf8Le1ISYNbBoJR6uuGxUDtPjJD39Om2aDw_icQQpTbIK3Vp1sCE2i')"></div>
+<div class="flex-1">
+<p class="text_sm font-bold text-[#111418] dark:text_white group-hover:text-primary transition-colors">Oke Yara</p>
+<p class="text-xs text-gray-500">Mother</p>
+</div>
+<span class="material-symbols-outlined text-gray-400 text-sm">chevron_right</span>
+</div>
+<div class="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors group">
+<div class="size-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs">D1</div>
+<div class="flex-1">
+<p class="text_sm font-bold text-[#111418] dark:text_white group-hover:text-primary transition-colors">Oke Odan Child One</p>
+<p class="text-xs text-gray-500">Daughter</p>
+</div>
+<span class="material-symbols-outlined text-gray-400 text-sm">chevron_right</span>
+</div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-3">
+<h3 class="text-sm font-bold text-[#111418] dark:text-white uppercase tracking-wide text-opacity-70">Media</h3>
+<a class="text-primary text-xs font-bold hover:underline" href="index.html">View All</a>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div class="aspect-square rounded-lg bg-gray-200 bg-cover bg-center cursor-pointer hover:opacity-80 transition-opacity" data-alt="Family photo at a park" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAmr4RGiL0sa8strqEVRfvksPYHkC8et2KQLIawPA-siBZ4_BE7d2tyD-zKin5OTcddiM38kgCFBPgwtkB9eggl2DWV5HlhE5JmxMc62bOoM-TC7HQE6vHSX0Kj7nSKrdWnxpFgvOFX0kRp2tIKF8PQvqUKQkASnaBxKEPB9C9FfcfdOWC3ZunWJFTeI6EGoGIHBLS4m365Wqr4nP-XNt6-AjtKK2LFum7eiXd9O-6BbqTLqco78xauph43L08olyVc4brgnyEHi6IS')"></div>
+<div class="aspect-square rounded-lg bg-gray-200 bg-cover bg-center cursor-pointer hover:opacity-80 transition-opacity" data-alt="Old scanned document" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDKGiK_EAShMSwAyc9PDoCgguoEFuRTFZn5g1mbhm9wfPz9946OSCIwyReh6Kut51xrUef0UZYrW9GCMV2d5Okdo4x6lx3TQ7gvVTxs2PhkmI-ASB6B_UlBlCqQ4Fv9Barv3AlVbEu87l6GdiWHceZ3ZflczJqt5eep-m13NO4IRTPswCPAQwjjO_w9_tONrUHBQa5XHDU_8EeoaoaraUOKJCwkQEdlvrPAICXzOtjKEPMk827owg1pIFpRJJ9r3V1Lt3K00AdWBZ6A')"></div>
+<div class="aspect-square rounded-lg bg-gray-100 flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-gray-400">add_photo_alternate</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+
+<script>
+function toggleSidebar() {
+    const sidebar = document.getElementById('treeSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sidebar.classList.toggle('translate-x-full');
+    overlay.classList.toggle('hidden');
+}
+
+// Theme Toggle
+const htmlElement = document.documentElement;
+const currentTheme = localStorage.getItem('theme') || 'light';
+htmlElement.classList.toggle('dark', currentTheme === 'dark');
+</script>
+<script type="module" src="tree.js"></script>
+</body></html>
+

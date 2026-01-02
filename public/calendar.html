@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Family Events Calendar</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-white antialiased flex flex-col min-h-screen">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f2f4] dark:border-gray-800 bg-white dark:bg-[#101922] px-6 py-3 lg:px-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#111418] dark:text-white">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+</div>
+<h2 class="text-[#111418] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Family Tree System</h2>
+</div>
+<div class="hidden lg:flex items-center gap-9">
+<a class="text-[#617589] dark:text-gray-400 text-sm font-medium leading-normal hover:text-primary transition-colors" href="tree.html">Lineage Map</a>
+<a class="text-[#617589] dark:text-gray-400 text-sm font-medium leading-normal hover:text-primary transition-colors" href="search.html">Family Directory</a>
+<a class="text-primary text-sm font-bold leading-normal border-b-2 border-primary pb-0.5" href="calendar.html">Calendar</a>
+<a class="text-[#617589] dark:text-gray-400 text-sm font-medium leading-normal hover:text-primary transition-colors" href="manage_codes.html">Settings</a>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-4 lg:gap-8">
+<label class="hidden sm:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-[#617589] flex border-none bg-[#f0f2f4] dark:bg-gray-800 items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white focus:outline-0 focus:ring-0 border-none bg-[#f0f2f4] dark:bg-gray-800 focus:border-none h-full placeholder:text-[#617589] px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search events or members" value=""/>
+</div>
+</label>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-gray-200 dark:border-gray-700" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCzTOhmEzbPvCUNhijBmYuMlIm8tWbj74UbP7Nay-01AAjwlDB0Rv9MO2TLp2T9A1d6NbprzQwmPVq_srZEG1Y5dOksjbRCW0LpSJJm3R4g3E8iCbrzLC-kIEaybyL726Mc3l7_qtD63JQ85go5AiYFAl2N6MB6vDhiQ3vj8op2BqG6rtW2q0KHi4tzDy7P7lUjGFyhFMwOLyBUhf4DyFiHH2iaM82fq2YpITQzI1TKUGjfQdS9_pUBCirTfkV4LOmmSTxhhrHQkFKB");'></div>
+</div>
+</header>
+<div class="flex flex-1 flex-col lg:flex-row overflow-hidden max-w-[1920px] mx-auto w-full">
+<aside class="w-full lg:w-72 bg-white dark:bg-[#101922] lg:border-r border-[#f0f2f4] dark:border-gray-800 flex flex-col p-6 gap-6 overflow-y-auto shrink-0">
+<div class="p-4 bg-[#f0f2f4] dark:bg-gray-800/50 rounded-xl">
+<div class="flex items-center justify-between mb-4">
+<span class="text-sm font-bold">October 2023</span>
+<div class="flex gap-1">
+<button class="p-1 hover:bg-white dark:hover:bg-gray-700 rounded-full transition-colors"><span class="material-symbols-outlined text-[16px]">chevron_left</span></button>
+<button class="p-1 hover:bg-white dark:hover:bg-gray-700 rounded-full transition-colors"><span class="material-symbols-outlined text-[16px]">chevron_right</span></button>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-y-2 text-center text-xs text-gray-500 dark:text-gray-400 mb-2">
+<span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+</div>
+<div class="grid grid-cols-7 gap-y-2 text-center text-xs font-medium">
+<span class="text-gray-300 dark:text-gray-600">29</span>
+<span class="text-gray-300 dark:text-gray-600">30</span>
+<span>1</span><span>2</span><span>3</span><span>4</span>
+<span class="bg-primary text-white rounded-full size-6 flex items-center justify-center mx-auto">5</span>
+<span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span>
+<span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span>
+<span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span>
+<span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
+</div>
+</div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">Event Filters</h3>
+<div class="flex flex-col gap-1">
+<label class="flex gap-x-3 py-2 items-center cursor-pointer group">
+<input checked="" class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 bg-transparent text-[#1380ec] focus:ring-0 focus:ring-offset-0 transition-colors" type="checkbox"/>
+<div class="flex items-center gap-2 flex-1">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span>
+<p class="text-[#111418] dark:text-white text-sm font-medium group-hover:text-primary transition-colors">Birthdays</p>
+</div>
+</label>
+<label class="flex gap-x-3 py-2 items-center cursor-pointer group">
+<input checked="" class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 bg-transparent text-[#1380ec] focus:ring-0 focus:ring-offset-0 transition-colors" type="checkbox"/>
+<div class="flex items-center gap-2 flex-1">
+<span class="w-2 h-2 rounded-full bg-purple-500"></span>
+<p class="text-[#111418] dark:text-white text-sm font-medium group-hover:text-primary transition-colors">Anniversaries</p>
+</div>
+</label>
+<label class="flex gap-x-3 py-2 items-center cursor-pointer group">
+<input checked="" class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 bg-transparent text-[#1380ec] focus:ring-0 focus:ring-offset-0 transition-colors" type="checkbox"/>
+<div class="flex items-center gap-2 flex-1">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<p class="text-[#111418] dark:text-white text-sm font-medium group-hover:text-primary transition-colors">Reunions</p>
+</div>
+</label>
+<label class="flex gap-x-3 py-2 items-center cursor-pointer group">
+<input class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 bg-transparent text-[#1380ec] focus:ring-0 focus:ring-offset-0 transition-colors" type="checkbox"/>
+<div class="flex items-center gap-2 flex-1">
+<span class="w-2 h-2 rounded-full bg-gray-400"></span>
+<p class="text-[#111418] dark:text-white text-sm font-medium group-hover:text-primary transition-colors">Reminders</p>
+</div>
+</label>
+</div>
+</div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">Up Next</h3>
+<div class="space-y-3">
+<div class="flex items-center gap-3 bg-[#f0f2f4] dark:bg-gray-800/50 p-3 rounded-lg">
+<div class="flex flex-col items-center justify-center w-10 h-10 bg-white dark:bg-gray-700 rounded-lg shadow-sm">
+<span class="text-[10px] font-bold text-red-500 uppercase">Oct</span>
+<span class="text-sm font-bold text-gray-800 dark:text-white">12</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-gray-900 dark:text-white">Family Member A's B-day</p>
+<p class="text-xs text-gray-500">Turning 64</p>
+</div>
+</div>
+<div class="flex items-center gap-3 bg-[#f0f2f4] dark:bg-gray-800/50 p-3 rounded-lg">
+<div class="flex flex-col items-center justify-center w-10 h-10 bg-white dark:bg-gray-700 rounded-lg shadow-sm">
+<span class="text-[10px] font-bold text-red-500 uppercase">Oct</span>
+<span class="text-sm font-bold text-gray-800 dark:text-white">15</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-gray-900 dark:text-white">Family Branch B Picnic</p>
+<p class="text-xs text-gray-500">Central Park, 2PM</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-full bg-white dark:bg-[#101922]">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 border-b border-[#f0f2f4] dark:border-gray-800">
+<div class="flex flex-col gap-1">
+<h1 class="text-[#111418] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">October 2023</h1>
+<p class="text-[#617589] dark:text-gray-400 text-sm font-normal">Manage birthdays, anniversaries, and reunions</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center bg-[#f0f2f4] dark:bg-gray-800 rounded-lg p-1">
+<button class="w-8 h-8 flex items-center justify-center hover:bg-white dark:hover:bg-gray-700 rounded-md transition-shadow shadow-sm">
+<span class="material-symbols-outlined text-gray-600 dark:text-gray-300">chevron_left</span>
+</button>
+<button class="px-3 text-sm font-medium text-gray-700 dark:text-gray-300">Today</button>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-white dark:hover:bg-gray-700 rounded-md transition-shadow shadow-sm">
+<span class="material-symbols-outlined text-gray-600 dark:text-gray-300">chevron_right</span>
+</button>
+</div>
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-5 bg-primary hover:bg-blue-600 text-white text-sm font-bold leading-normal transition-colors shadow-sm shadow-blue-200 dark:shadow-none">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="truncate">Add Event</span>
+</button>
+</div>
+</div>
+<div class="flex-1 flex flex-col min-h-0 overflow-y-auto">
+<div class="grid grid-cols-7 border-b border-[#f0f2f4] dark:border-gray-800 bg-[#fbfcfd] dark:bg-[#15202b]">
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">Sun</div>
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">Mon</div>
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">Tue</div>
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">Wed</div>
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">Thu</div>
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">Fri</div>
+<div class="py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">Sat</div>
+</div>
+<div class="grid grid-cols-7 flex-1 auto-rows-fr bg-[#f0f2f4] dark:bg-gray-800 gap-[1px]">
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1">
+<span class="text-sm font-medium text-gray-300 dark:text-gray-600 self-end">29</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1">
+<span class="text-sm font-medium text-gray-300 dark:text-gray-600 self-end">30</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors group relative">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">1</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">2</span>
+<div class="bg-purple-100 dark:bg-purple-900/40 border-l-2 border-purple-500 rounded-r px-2 py-1 cursor-pointer hover:opacity-80">
+<p class="text-xs font-semibold text-purple-700 dark:text-purple-300 truncate">💍 50th Anniversary</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">3</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">4</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-bold text-white bg-primary rounded-full size-7 flex items-center justify-center self-end shadow-md">5</span>
+<div class="bg-blue-100 dark:bg-blue-900/40 border-l-2 border-blue-500 rounded-r px-2 py-1 cursor-pointer hover:opacity-80 mb-1">
+<p class="text-xs font-semibold text-blue-700 dark:text-blue-300 truncate">🎂 Member C (54)</p>
+</div>
+<div class="bg-blue-100 dark:bg-blue-900/40 border-l-2 border-blue-500 rounded-r px-2 py-1 cursor-pointer hover:opacity-80">
+<p class="text-xs font-semibold text-blue-700 dark:text-blue-300 truncate">🎂 Member D (12)</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">6</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">7</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">8</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">9</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">10</span>
+<div class="bg-emerald-100 dark:bg-emerald-900/40 border-l-2 border-emerald-500 rounded-r px-2 py-1 cursor-pointer hover:opacity-80">
+<p class="text-xs font-semibold text-emerald-700 dark:text-emerald-300 truncate">🌳 Family Branch B Reunion</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">11</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">12</span>
+<div class="bg-blue-100 dark:bg-blue-900/40 border-l-2 border-blue-500 rounded-r px-2 py-1 cursor-pointer hover:opacity-80">
+<p class="text-xs font-semibold text-blue-700 dark:text-blue-300 truncate">🎂 Family Member A (64)</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">13</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">14</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">15</span>
+<div class="bg-emerald-100 dark:bg-emerald-900/40 border-l-2 border-emerald-500 rounded-r px-2 py-1 cursor-pointer hover:opacity-80">
+<p class="text-xs font-semibold text-emerald-700 dark:text-emerald-300 truncate">🌳 Annual Picnic</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">16</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">17</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">18</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">19</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">20</span>
+<div class="bg-purple-100 dark:bg-purple-900/40 border-l-2 border-purple-500 rounded-r px-2 py-1 cursor-pointer hover:opacity-80">
+<p class="text-xs font-semibold text-purple-700 dark:text-purple-300 truncate">💍 Member E &amp; F Anniv</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">21</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">22</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">23</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">24</span>
+<div class="bg-blue-100 dark:bg-blue-900/40 border-l-2 border-blue-500 rounded-r px-2 py-1 cursor-pointer hover:opacity-80">
+<p class="text-xs font-semibold text-blue-700 dark:text-blue-300 truncate">🎂 Member G (82)</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">25</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">26</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">27</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">28</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">29</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">30</span>
+<div class="bg-yellow-100 dark:bg-yellow-900/40 border-l-2 border-yellow-500 rounded-r px-2 py-1 cursor-pointer hover:opacity-80">
+<p class="text-xs font-semibold text-yellow-700 dark:text-yellow-300 truncate">🍼 Baby Shower</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300 self-end p-1">31</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1">
+<span class="text-sm font-medium text-gray-300 dark:text-gray-600 self-end">1</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1">
+<span class="text-sm font-medium text-gray-300 dark:text-gray-600 self-end">2</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1">
+<span class="text-sm font-medium text-gray-300 dark:text-gray-600 self-end">3</span>
+</div>
+<div class="bg-white dark:bg-[#101922] p-2 min-h-[120px] flex flex-col gap-1">
+<span class="text-sm font-medium text-gray-300 dark:text-gray-600 self-end">4</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
