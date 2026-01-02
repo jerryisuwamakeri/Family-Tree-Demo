@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Family Tree Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "card-dark": "#1b2631",
+                        "input-dark": "#23303d",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white transition-colors duration-200">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- Mobile Menu Overlay -->
+<div id="mobileMenuOverlay" class="fixed inset-0 bg-black/50 z-40 lg:hidden hidden" onclick="toggleMobileMenu()"></div>
+
+<!-- Sidebar -->
+<aside id="sidebar" class="flex w-64 flex-col bg-white dark:bg-card-dark border-r border-[#e5e7eb] dark:border-[#2a3441] transition-all duration-300 shrink-0 fixed lg:relative inset-y-0 left-0 z-50 -translate-x-full lg:translate-x-0">
+<div class="flex h-full flex-col justify-between p-4">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-2 py-2 mb-4">
+<div class="bg-primary/10 flex items-center justify-center rounded-lg size-10 text-primary">
+<span class="material-symbols-outlined text-2xl">family_history</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight text-[#111418] dark:text-white">FamilyConnect</h1>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary group transition-all" href="dashboard.html">
+<span class="material-symbols-outlined filled">dashboard</span>
+<span class="text-sm font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#637588] dark:text-[#94a3b8] hover:bg-gray-100 dark:hover:bg-[#2a3441] hover:text-[#111418] dark:hover:text-white transition-all" href="search.html">
+<span class="material-symbols-outlined">diversity_3</span>
+<span class="text-sm font-medium">Progenitors</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#637588] dark:text-[#94a3b8] hover:bg-gray-100 dark:hover:bg-[#2a3441] hover:text-[#111418] dark:hover:text-white transition-all" href="tree.html">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="text-sm font-medium">Full Family Tree</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#637588] dark:text-[#94a3b8] hover:bg-gray-100 dark:hover:bg-[#2a3441] hover:text-[#111418] dark:hover:text-white transition-all" href="profile.html">
+<span class="material-symbols-outlined">perm_media</span>
+<span class="text-sm font-medium">Media Gallery</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#637588] dark:text-[#94a3b8] hover:bg-gray-100 dark:hover:bg-[#2a3441] hover:text-[#111418] dark:hover:text-white transition-all" href="profile.html">
+<span class="material-symbols-outlined">biotech</span>
+<span class="text-sm font-medium">DNA Results</span>
+</a>
+<div class="h-px bg-gray-200 dark:bg-[#2a3441] my-2"></div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#637588] dark:text-[#94a3b8] hover:bg-gray-100 dark:hover:bg-[#2a3441] hover:text-[#111418] dark:hover:text-white transition-all" href="manage_codes.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 rounded-xl border border-[#e5e7eb] dark:border-[#2a3441] bg-gray-50 dark:bg-[#23303d]">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shrink-0 ring-2 ring-primary/20" style='background-image: url("assets/Ambassador Lamidi Alabi Maliki.jpeg");' title="Admin Profile"></div>
+<div class="flex flex-col min-w-0">
+<p class="text-sm font-bold text-[#111418] dark:text-white truncate">Alhaji Abdul Kareem</p>
+<p class="text-xs text-[#637588] dark:text-[#94a3b8] truncate">Admin Account</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col min-w-0 bg-background-light dark:bg-background-dark overflow-hidden w-full">
+<header class="flex items-center justify-between px-4 lg:px-8 py-4 bg-white dark:bg-card-dark border-b border-[#e5e7eb] dark:border-[#2a3441]">
+<button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg text-[#637588] dark:text-[#94a3b8] hover:bg-gray-100 dark:hover:bg-[#2a3441] transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="flex max-w-md w-full">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-[#94a3b8]">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border-none rounded-lg bg-[#f0f2f4] dark:bg-input-dark text-[#111418] dark:text-white placeholder-[#637588] dark:placeholder-[#94a3b8] focus:ring-2 focus:ring-primary/50 text-sm leading-5 transition-all" placeholder="Search relatives, places, or events..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 rounded-lg text-[#637588] dark:text-[#94a3b8] hover:bg-gray-100 dark:hover:bg-[#2a3441] transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-card-dark"></span>
+</button>
+<button class="p-2 rounded-lg text-[#637588] dark:text-[#94a3b8] hover:bg-gray-100 dark:hover:bg-[#2a3441] transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<div class="h-8 w-px bg-gray-200 dark:bg-[#2a3441]"></div>
+<button class="flex items-center gap-2 text-sm font-medium text-[#637588] dark:text-[#94a3b8] hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+<span class="hidden sm:inline">Help</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto no-scrollbar p-4 lg:p-8">
+<div class="max-w-[1200px] mx-auto flex flex-col gap-6 lg:gap-8">
+<div class="flex flex-col gap-1">
+<h2 class="text-2xl lg:text-3xl font-black text-[#111418] dark:text-white tracking-tight">Welcome back, Alhaji Abdul Kareem</h2>
+<p class="text-[#637588] dark:text-[#94a3b8]">Here is an overview of your family history updates.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+<div class="relative overflow-hidden rounded-xl border border-[#e5e7eb] dark:border-[#2a3441] bg-gradient-to-br from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/20 p-4 lg:p-6 shadow-sm">
+<div class="flex flex-col gap-2 relative z-10">
+<p class="text-primary dark:text-primary font-semibold text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">diversity_3</span>
+                                Progenitors
+                            </p>
+<p class="text-4xl font-bold text-[#111418] dark:text-white tracking-tight">12</p>
+<div class="flex items-center gap-1 text-primary text-xs font-medium mt-1">
+<span>Founding Ancestors</span>
+</div>
+</div>
+<div class="absolute right-[-20px] top-[-20px] opacity-10 dark:opacity-[0.05]">
+<span class="material-symbols-outlined text-[150px] text-primary">diversity_3</span>
+</div>
+</div>
+<div class="relative overflow-hidden rounded-xl border border-[#e5e7eb] dark:border-[#2a3441] bg-white dark:bg-card-dark p-4 lg:p-6 shadow-sm">
+<div class="flex flex-col gap-2 relative z-10">
+<p class="text-[#637588] dark:text-[#94a3b8] font-medium text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">groups</span>
+                                Total Members
+                            </p>
+<p class="text-4xl font-bold text-[#111418] dark:text-white tracking-tight">142</p>
+<div class="flex items-center gap-1 text-emerald-500 text-xs font-bold mt-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>12% increase</span>
+</div>
+</div>
+<div class="absolute right-[-20px] top-[-20px] opacity-5 dark:opacity-[0.02]">
+<span class="material-symbols-outlined text-[150px] text-[#111418] dark:text-white">groups</span>
+</div>
+</div>
+<div class="relative overflow-hidden rounded-xl border border-[#e5e7eb] dark:border-[#2a3441] bg-white dark:bg-card-dark p-4 lg:p-6 shadow-sm">
+<div class="flex flex-col gap-2 relative z-10">
+<p class="text-[#637588] dark:text-[#94a3b8] font-medium text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">account_tree</span>
+                                Generations Mapped
+                            </p>
+<p class="text-4xl font-bold text-[#111418] dark:text-white tracking-tight">5</p>
+<div class="flex items-center gap-1 text-[#637588] dark:text-[#94a3b8] text-xs font-medium mt-1">
+<span>Earliest: 1842</span>
+</div>
+</div>
+<div class="absolute right-[-20px] top-[-20px] opacity-5 dark:opacity-[0.02]">
+<span class="material-symbols-outlined text-[150px] text-[#111418] dark:text-white">account_tree</span>
+</div>
+</div>
+<div class="relative overflow-hidden rounded-xl border border-[#e5e7eb] dark:border-[#2a3441] bg-white dark:bg-card-dark p-4 lg:p-6 shadow-sm">
+<div class="flex flex-col gap-2 relative z-10">
+<p class="text-[#637588] dark:text-[#94a3b8] font-medium text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">history</span>
+                                Recent Additions
+                            </p>
+<p class="text-4xl font-bold text-[#111418] dark:text-white tracking-tight">+3</p>
+<div class="flex items-center gap-1 text-primary text-xs font-bold mt-1">
+<span>This week</span>
+</div>
+</div>
+<div class="absolute right-[-20px] top-[-20px] opacity-5 dark:opacity-[0.02]">
+<span class="material-symbols-outlined text-[150px] text-[#111418] dark:text-white">history</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row flex-wrap gap-3">
+<button class="flex-1 min-w-[200px] flex cursor-pointer items-center justify-center gap-2 rounded-lg py-3 px-5 bg-primary hover:bg-blue-600 text-white font-bold tracking-wide shadow-md shadow-blue-500/20 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+<span>Add Family Member</span>
+</button>
+<button class="flex-1 min-w-[200px] flex cursor-pointer items-center justify-center gap-2 rounded-lg py-3 px-5 bg-white dark:bg-card-dark border border-[#e5e7eb] dark:border-[#2a3441] text-[#111418] dark:text-white hover:bg-gray-50 dark:hover:bg-[#23303d] font-bold tracking-wide transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px] text-primary">add_a_photo</span>
+<span class="hidden sm:inline">Upload Photos</span>
+<span class="sm:hidden">Photos</span>
+</button>
+<button class="flex-1 min-w-[200px] flex cursor-pointer items-center justify-center gap-2 rounded-lg py-3 px-5 bg-white dark:bg-card-dark border border-[#e5e7eb] dark:border-[#2a3441] text-[#111418] dark:text-white hover:bg-gray-50 dark:hover:bg-[#23303d] font-bold tracking-wide transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px] text-primary">mail</span>
+<span class="hidden sm:inline">Invite Relatives</span>
+<span class="sm:hidden">Invite</span>
+</button>
+</div>
+<!-- Progenitor Showcase -->
+<div class="rounded-xl border border-[#e5e7eb] dark:border-[#2a3441] bg-gradient-to-br from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/20 overflow-hidden shadow-lg ring-2 ring-primary/30">
+<div class="px-6 py-4 border-b border-primary/20 bg-gradient-to-r from-primary/10 to-transparent flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">mosque</span>
+<h3 class="text-lg font-bold text-[#111418] dark:text-white">Main Progenitor - Family Founder</h3>
+</div>
+<a class="text-sm font-semibold text-primary hover:text-blue-600" href="search.html">View All 12</a>
+</div>
+<div class="p-6">
+<div class="flex flex-col lg:flex-row gap-6 items-center lg:items-start">
+<div class="relative group">
+<div class="size-32 lg:size-40 rounded-xl bg-cover bg-center ring-4 ring-primary/40 shadow-xl" style="background-image: url('assets/Imam Abdullahi Maliki.jpeg')"></div>
+<div class="absolute -top-2 -right-2 size-8 bg-primary rounded-full flex items-center justify-center shadow-lg ring-4 ring-white dark:ring-card-dark">
+<span class="material-symbols-outlined text-white text-[16px] filled">star</span>
+</div>
+<div class="absolute inset-0 rounded-xl bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+<span class="text-white text-xs font-medium">📸 View Gallery</span>
+</div>
+</div>
+<div class="flex-1 text-center lg:text-left">
+<h4 class="text-2xl lg:text-3xl font-bold text-[#111418] dark:text-white mb-1">Imam Abdullahi Maliki</h4>
+<p class="text-primary font-bold mb-2 text-base">🌟 Main Progenitor - Family Patriarch</p>
+<p class="text-sm text-[#637588] dark:text-[#94a3b8] mb-4">The revered Imam and founding patriarch of the entire Maliki family lineage. A distinguished Islamic scholar and spiritual leader whose wisdom, piety, and dedication to faith laid the foundation for all 12 progenitor lines. His teachings and values continue to guide generations of descendants across all compounds, making him the ancestral cornerstone of this noble family tree.</p>
+<div class="flex flex-wrap gap-2 justify-center lg:justify-start mb-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-primary/20 text-primary border-2 border-primary/40 ring-2 ring-primary/10">
+<span class="material-symbols-outlined text-[14px] filled">mosque</span>
+Imam & Scholar
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-amber-50 dark:bg-amber-900/20 text-amber-600 border border-amber-200 dark:border-amber-800">
+<span class="material-symbols-outlined text-[14px]">family_history</span>
+12 Lineages
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-600 border border-green-100 dark:border-green-800">
+<span class="material-symbols-outlined text-[14px]">groups</span>
+All Generations
+</span>
+</div>
+<div class="flex gap-2 justify-center lg:justify-start">
+<a href="profile.html" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-blue-600 transition-colors shadow-md">
+<span class="material-symbols-outlined text-[18px]">person</span>
+View Profile
+</a>
+<a href="tree.html" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-[#111418] dark:text-white text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+View Lineage
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Second Progenitor Card - Ambassador Lamidi - Ambassador Lamidi -->
+<div class="rounded-xl border border-[#e5e7eb] dark:border-[#2a3441] bg-white dark:bg-card-dark overflow-hidden shadow-sm">
+<div class="px-6 py-4 border-b border-[#e5e7eb] dark:border-[#2a3441] flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">diversity_3</span>
+<h3 class="text-lg font-bold text-[#111418] dark:text-white">Descendant Progenitor</h3>
+</div>
+<a class="text-sm font-semibold text-primary hover:text-blue-600" href="search.html">View All 12</a>
+</div>
+<div class="p-6">
+<div class="flex flex-col lg:flex-row gap-6 items-center lg:items-start">
+<div class="relative group">
+<div class="size-32 lg:size-40 rounded-xl bg-cover bg-center ring-4 ring-primary/20 shadow-lg" style="background-image: url('assets/Ambassador Lamidi Alabi Maliki.jpeg')"></div>
+<div class="absolute inset-0 rounded-xl bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+<span class="text-white text-xs font-medium">📸 View Gallery</span>
+</div>
+</div>
+<div class="flex-1 text-center lg:text-left">
+<h4 class="text-2xl font-bold text-[#111418] dark:text-white mb-1">Ambassador Lamidi Alabi Maliki</h4>
+<p class="text-primary font-semibold mb-2">Descendant Progenitor - Oke Yara Compound</p>
+<p class="text-sm text-[#637588] dark:text-[#94a3b8] mb-4">Distinguished diplomat and community leader, descendant of Imam Abdullahi Maliki, who served as Nigeria's ambassador. A pillar of the Oke Yara compound and devoted family patriarch. His legacy continues through multiple generations of descendants who honor his commitment to education, service, and Islamic values.</p>
+<div class="flex flex-wrap gap-2 justify-center lg:justify-start mb-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 border border-emerald-100 dark:border-emerald-800">
+<span class="material-symbols-outlined text-[14px]">mosque</span>
+Scholar
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-600 border border-green-100 dark:border-green-800">
+<span class="material-symbols-outlined text-[14px]">groups</span>
+6 Generations
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-purple-50 dark:bg-purple-900/20 text-purple-600 border border-purple-100 dark:border-purple-800">
+<span class="material-symbols-outlined text-[14px]">home</span>
+Oke Yara
+</span>
+</div>
+<div class="flex gap-2 justify-center lg:justify-start">
+<a href="profile.html" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-blue-600 transition-colors">
+<span class="material-symbols-outlined text-[18px]">person</span>
+View Profile
+</a>
+<a href="tree.html" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-[#111418] dark:text-white text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+View Lineage
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Third Progenitor Card - Alhaja Memunat (Iya Ilawe) -->
+<div class="rounded-xl border border-[#e5e7eb] dark:border-[#2a3441] bg-white dark:bg-card-dark overflow-hidden shadow-sm">
+<div class="px-6 py-4 border-b border-[#e5e7eb] dark:border-[#2a3441] flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">diversity_3</span>
+<h3 class="text-lg font-bold text-[#111418] dark:text-white">Descendant Progenitor</h3>
+</div>
+<a class="text-sm font-semibold text-primary hover:text-blue-600" href="search.html">View All 12</a>
+</div>
+<div class="p-6">
+<div class="flex flex-col lg:flex-row gap-6 items-center lg:items-start">
+<div class="relative group">
+<div class="size-32 lg:size-40 rounded-xl bg-cover bg-center ring-4 ring-pink-200 dark:ring-pink-800/40 shadow-lg" style="background-image: url('assets/Memunat Wuraola MALIKI aka Iya Ilawe.jpeg')"></div>
+<div class="absolute inset-0 rounded-xl bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+<span class="text-white text-xs font-medium">📸 View Gallery</span>
+</div>
+</div>
+<div class="flex-1 text-center lg:text-left">
+<h4 class="text-2xl font-bold text-[#111418] dark:text-white mb-1">Alhaja Memunat Wuraola Maliki</h4>
+<p class="text-pink-600 dark:text-pink-400 font-semibold mb-2">Descendant Progenitor - Iwaye Compound (Iya Ilawe)</p>
+<p class="text-sm text-[#637588] dark:text-[#94a3b8] mb-4">Revered matriarch and descendant of Imam Abdullahi Maliki, known throughout the Iwaye compound as "Iya Ilawe" (Mother of Ilawe). A pillar of strength, wisdom, and Islamic devotion, she nurtured generations with her compassion and unwavering faith. Her legacy of kindness, community service, and spiritual guidance continues to inspire her numerous descendants across the family tree.</p>
+<div class="flex flex-wrap gap-2 justify-center lg:justify-start mb-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-pink-50 dark:bg-pink-900/20 text-pink-600 border border-pink-100 dark:border-pink-800">
+<span class="material-symbols-outlined text-[14px]">favorite</span>
+Matriarch
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-600 border border-green-100 dark:border-green-800">
+<span class="material-symbols-outlined text-[14px]">groups</span>
+5 Generations
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 border border-indigo-100 dark:border-indigo-800">
+<span class="material-symbols-outlined text-[14px]">home</span>
+Iwaye
+</span>
+</div>
+<div class="flex gap-2 justify-center lg:justify-start">
+<a href="profile.html" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-blue-600 transition-colors">
+<span class="material-symbols-outlined text-[18px]">person</span>
+View Profile
+</a>
+<a href="tree.html" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-[#111418] dark:text-white text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+View Lineage
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 flex flex-col gap-6">
+<div class="rounded-xl border border-[#e5e7eb] dark:border-[#2a3441] bg-white dark:bg-card-dark p-6 flex flex-col h-full shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-[#111418] dark:text-white">Family Tree Preview</h3>
+<a class="text-sm font-semibold text-primary hover:underline" href="tree.html">View Full Tree</a>
+</div>
+<div class="relative flex-1 min-h-[300px] bg-[#f8fafc] dark:bg-[#151e27] rounded-lg border border-dashed border-gray-300 dark:border-gray-700 overflow-hidden group">
+<div class="absolute inset-0 opacity-50 dark:opacity-20" style="background-image: radial-gradient(#137fec 1px, transparent 1px); background-size: 20px 20px;">
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="flex flex-col items-center gap-8 transform scale-90 sm:scale-100 transition-transform">
+<div class="flex gap-16">
+<div class="size-12 rounded-full bg-gray-300 dark:bg-gray-700 border-2 border-white dark:border-gray-600 shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-500 text-xl">person</span>
+</div>
+<div class="size-12 rounded-full bg-gray-300 dark:bg-gray-700 border-2 border-white dark:border-gray-600 shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-500 text-xl">person</span>
+</div>
+</div>
+<div class="w-[1px] h-8 bg-gray-300 dark:bg-gray-600"></div>
+<div class="flex gap-12 items-center">
+<div class="size-14 rounded-full bg-gray-200 dark:bg-gray-600 border-2 border-white dark:border-gray-600 shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-400 text-2xl">person</span>
+</div>
+<div class="h-[2px] w-8 bg-primary"></div>
+<div class="size-14 rounded-full bg-white dark:bg-card-dark border-2 border-primary shadow-md flex items-center justify-center relative">
+<span class="material-symbols-outlined text-primary text-2xl">person</span>
+<div class="absolute -bottom-1 -right-1 bg-primary text-white text-[10px] px-1.5 py-0.5 rounded-full border border-white dark:border-card-dark">You</div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute inset-0 bg-white/60 dark:bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-[2px]">
+<button class="bg-primary hover:bg-blue-600 text-white font-bold py-2.5 px-6 rounded-full shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all">
+                                        Expand Tree View
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="rounded-xl border border-[#e5e7eb] dark:border-[#2a3441] bg-white dark:bg-card-dark shadow-sm flex flex-col">
+<div class="p-4 border-b border-[#e5e7eb] dark:border-[#2a3441] flex justify-between items-center">
+<h3 class="text-base font-bold text-[#111418] dark:text-white">Recent Activity</h3>
+<button class="text-xs font-semibold text-primary">View All</button>
+</div>
+<div class="flex flex-col">
+<div class="flex gap-3 p-4 border-b border-[#f0f2f4] dark:border-[#2a3441] hover:bg-gray-50 dark:hover:bg-[#23303d] transition-colors cursor-pointer">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shrink-0" data-alt="Profile picture of Compound Overseer A" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCT8xU_6c3e6hABMHSQMBtf2Gm1xHmLbLe4laKeYzV_ZGRLnicDwoIViVRHfDcTUnUePEIjY693oC65kKDhDwsrQlpGhNxi3DeF9YAUAlKAxSJ3ZW9H8M7QwCRc7JeAHngf3DSOZycIEgDTPMCxMMIhMsrSg0Jl35Hrqz5UPFStdECOr4SE89RpKlf7eyRK1xj5vjRTF0trfb8qLb8h-zeer2OCYtea2bUV-wKKPXx34XZRBpa5Lj-75cMIy8lTtC1FEPPoRbq6zG0F");'></div>
+<div class="flex flex-col gap-0.5">
+<p class="text-sm text-[#111418] dark:text-white leading-tight">
+<span class="font-bold">Compound Overseer A</span> added 3 photos to <span class="text-primary font-medium">Sector 7 Archives</span>
+</p>
+<p class="text-xs text-[#637588] dark:text-[#94a3b8]">2 hours ago</p>
+</div>
+</div>
+<div class="flex gap-3 p-4 border-b border-[#f0f2f4] dark:border-[#2a3441] hover:bg-gray-50 dark:hover:bg-[#2a3441] transition-colors cursor-pointer">
+<div class="flex items-center justify-center bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full size-10 shrink-0">
+<span class="material-symbols-outlined text-xl">biotech</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<p class="text-sm text-[#111418] dark:text-white leading-tight">
+                                            New <span class="font-bold">DNA Match</span> found!
+                                        </p>
+<p class="text-xs text-[#637588] dark:text-[#94a3b8]">Yesterday</p>
+</div>
+</div>
+<div class="flex gap-3 p-4 hover:bg-gray-50 dark:hover:bg-[#23303d] transition-colors cursor-pointer">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shrink-0" data-alt="Profile picture of Sector Guardian Beta" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuByuEEjpBGNWP29enT6dl22AsFt2MMl9GUUSW6yMl-2qWuchKlo3o2yP_z5ACdZAO1K2XQJp1j9vLiTT3hWxpc0zRJ7375fSuLaWWXOh-GUumSQ3bbT5rayXOubU00LWvkeoXEnm-RCtrElLfKwDemvL27G2amVJ3K0dlc6n4ELlJI05kSECfC37WNpgwNmOXLccedOMTG2s7XESblGgv38ymdL5yCK3M0FQX7_HJYLwIHVPygzArFFux7MXVJJC15knJXrk1dY1u04");'></div>
+<div class="flex flex-col gap-0.5">
+<p class="text-sm text-[#111418] dark:text-white leading-tight">
+<span class="font-bold">Sector Guardian Beta</span> updated his profile
+                                        </p>
+<p class="text-xs text-[#637588] dark:text-[#94a3b8]">3 days ago</p>
+</div>
+</div>
+</div>
+</div>
+<div class="rounded-xl border border-[#e5e7eb] dark:border-[#2a3441] bg-white dark:bg-card-dark p-5 shadow-sm">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-orange-500">cake</span>
+<h3 class="text-base font-bold text-[#111418] dark:text-white">Upcoming Events</h3>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3 bg-background-light dark:bg-[#151e27] p-3 rounded-lg">
+<div class="bg-white dark:bg-card-dark shadow-sm border border-gray-200 dark:border-gray-700 rounded-md w-10 h-10 flex flex-col items-center justify-center shrink-0">
+<span class="text-[10px] text-red-500 font-bold uppercase leading-none">Oct</span>
+<span class="text-sm font-bold text-[#111418] dark:text-white leading-none">24</span>
+</div>
+<div>
+<p class="text-sm font-bold text-[#111418] dark:text-white">Progenitor Origin Jubilee</p>
+<p class="text-xs text-[#637588] dark:text-[#94a3b8]">Turning 80 • In 5 days</p>
+</div>
+</div>
+<div class="flex items-center gap-3 bg-background-light dark:bg-[#151e27] p-3 rounded-lg">
+<div class="bg-white dark:bg-card-dark shadow-sm border border-gray-200 dark:border-gray-700 rounded-md w-10 h-10 flex flex-col items-center justify-center shrink-0">
+<span class="text-[10px] text-red-500 font-bold uppercase leading-none">Nov</span>
+<span class="text-sm font-bold text-[#111418] dark:text-white leading-none">02</span>
+</div>
+<div>
+<p class="text-sm font-bold text-[#111418] dark:text-white">Sector Convergence</p>
+<p class="text-xs text-[#637588] dark:text-[#94a3b8]">Central Compound Hub • In 14 days</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script type="module" src="dashboard.js"></script>
+</body></html>
+

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Imam Abdullahi Maliki Family Tree - Add Member</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&amp;family=Noto+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #94a3b8;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white transition-colors duration-200">
+<div class="flex h-screen overflow-hidden">
+<aside class="hidden lg:flex flex-col w-72 bg-white dark:bg-[#1A2633] border-r border-slate-200 dark:border-slate-800 transition-colors">
+<div class="p-6">
+<div class="flex items-center gap-3">
+<div class="bg-primary/10 p-2 rounded-lg text-primary">
+<span class="material-symbols-outlined text-3xl">family_history</span>
+</div>
+<div>
+<h1 class="font-bold text-lg tracking-tight text-slate-900 dark:text-white">Imam Abdullahi Maliki</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Family Tree</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col flex-1 px-4 gap-2 overflow-y-auto">
+<a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a href="tree.html" class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-medium">Tree View</span>
+</a>
+<a href="add_member.html" class="flex items-center gap-3 px-3 py-2 bg-primary/10 text-primary rounded-lg cursor-pointer font-medium">
+<span class="material-symbols-outlined fill-1">person_add</span>
+<span>Add Member</span>
+</a>
+<a href="search.html" class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined">search</span>
+<span class="font-medium">Search</span>
+</a>
+<a href="calendar.html" class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined">event</span>
+<span class="font-medium">Calendar</span>
+</a>
+<a href="manage_codes.html" class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined">key</span>
+<span class="font-medium">Manage Codes</span>
+</a>
+</div>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBbN0y3r2yJ05PbPFwunCu3PCuqPb8foDdeL2mRmh-e7ZdaoyhnacMPtRlgstYtQ-Y57O9GTDpdmg_tzg0eIT3rayVufghEf2zTMPbHAq_XP1_vzlrE1hBukZxqCRnh1RvIcqpzmMhAa3laHQTy03zfh6-wyawe9p3BFGhiJGQ4NNobTmliuR_PubioWTu-_Z6P8ErMDn8CXhp4sITUyxHfjX5BZ84ECxgu_FbjkmijxmL8Nfpq-5uRvsgT4ZMxN3R2kz2YGT3iYelF");'></div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-slate-900 dark:text-white">IMA Admin</span>
+<span class="text-xs text-slate-500 dark:text-slate-400">jerryisuwamakeri@gmail.com</span>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<header class="flex items-center justify-between px-8 py-5 bg-white dark:bg-[#1A2633] border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+<div>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">Add New Family Member</h2>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Register a new person into the lineage system.</p>
+</div>
+<div class="flex gap-3">
+<a href="index.html" class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                        Cancel
+                    </a>
+<button type="button" onclick="submitForm()" class="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-blue-600 shadow-md shadow-blue-500/20 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">send</span>
+                        Submit Registration
+                    </button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-5xl mx-auto space-y-6">
+<form id="memberForm">
+<!-- Email Section -->
+<div class="bg-white dark:bg-[#1A2633] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">mail</span>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Contact Information</h3>
+</div>
+<div class="p-6">
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Email <span class="text-red-500">*</span></span>
+<input id="email" name="email" required class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 px-3" placeholder="your.email@example.com" type="email"/>
+</label>
+</div>
+</div>
+<!-- Progenitor & Compound -->
+<div class="bg-white dark:bg-[#1A2633] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">diversity_3</span>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Lineage Information</h3>
+</div>
+<p class="px-6 pt-4 text-sm text-slate-600 dark:text-slate-400">Select your founding ancestor (progenitor) and your family compound. These are independent selections.</p>
+<div class="p-6 pt-3 grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Your Progenitor (Founding Ancestor) <span class="text-red-500">*</span></span>
+<select id="progenitor" name="progenitor" required class="form-select w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 px-3">
+<option disabled selected value="">Select your founding ancestor...</option>
+<option value="Alhaji Murtala Adisa">Alhaji Murtala Adisa (Baba Oke Odan)</option>
+<option value="Alhaja Humuani">Alhaja Humuani (Iya Iwaye)</option>
+<option value="Mukaddam Abdul Raheem Adisa">Mukaddam Abdul Raheem Adisa (Baba Kewu)</option>
+<option value="Alhaja Ralia">Alhaja Ralia (Iya Owo)</option>
+<option value="Alhaja Memunat">Alhaja Memunat (Iya Ilawe)</option>
+<option value="Alhaji Abdul Kareem">Alhaji Abdul Kareem (Ba'a)</option>
+<option value="Alhaji Mustapha Adedokun">Alhaji Mustapha Adedokun</option>
+<option value="Ambassador Lamidi">Ambassador Lamidi</option>
+<option value="Mrs Mariam Akinyemi">Mrs Mariam Akinyemi (Mama Dr Bashir Akinyemi)</option>
+<option value="Mr Tajudeen">Mr Tajudeen</option>
+<option value="Mr Abdul Ganiyu">Mr Abdul Ganiyu</option>
+<option value="Mrs Naheemah">Mrs Naheemah</option>
+</select>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Compound/Sector <span class="text-red-500">*</span></span>
+<select id="compound" name="compound" required class="form-select w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 px-3">
+<option disabled selected value="">Select compound/sector...</option>
+<option value="Oke Odan">Oke Odan</option>
+<option value="Iwaye">Iwaye</option>
+<option value="Oke Yara">Oke Yara</option>
+</select>
+</label>
+</div>
+</div>
+<!-- Personal Identity -->
+<div class="bg-white dark:bg-[#1A2633] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">badge</span>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Personal Identity</h3>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Name <span class="text-red-500">*</span></span>
+<input id="name" name="name" required class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 px-3" placeholder="Enter full name" type="text"/>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Middle Name <span class="text-red-500">*</span></span>
+<input id="middleName" name="middleName" required class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 px-3" placeholder="Enter middle name" type="text"/>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Father's Name <span class="text-red-500">*</span></span>
+<input id="fatherName" name="fatherName" required class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 px-3" placeholder="Enter father's full name" type="text"/>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Mother's Name <span class="text-red-500">*</span></span>
+<input id="motherName" name="motherName" required class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 px-3" placeholder="Enter mother's full name" type="text"/>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Date of Birth <span class="text-red-500">*</span></span>
+<input id="dob" name="dob" required class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 px-3" type="date"/>
+</label>
+</div>
+</div>
+<!-- Additional Information -->
+<div class="bg-white dark:bg-[#1A2633] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">contact_mail</span>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Additional Information</h3>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Current Location (Base) <span class="text-red-500">*</span></span>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-lg">location_on</span>
+<input id="location" name="location" required class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 pl-9 pr-3" placeholder="City, State, Country" type="text"/>
+</div>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Highest Educational Qualification</span>
+<input id="education" name="education" class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 px-3" placeholder="e.g., Bachelor's Degree, PhD" type="text"/>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Phone No</span>
+<input id="phone" name="phone" class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 px-3" placeholder="+234 XXX XXX XXXX" type="tel"/>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Occupation</span>
+<input id="occupation" name="occupation" class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 px-3" placeholder="Enter occupation" type="text"/>
+</label>
+</div>
+</div>
+<!-- Family Information -->
+<div class="bg-white dark:bg-[#1A2633] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">escalator_warning</span>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Family Information</h3>
+</div>
+<div class="p-6 space-y-6">
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Name of Spouse(s) (if married)</span>
+<textarea id="spouses" name="spouses" rows="3" class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary px-3 py-2" placeholder="Enter spouse name(s), separated by commas if multiple"></textarea>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Name(s) of Offspring(s) and Date(s) of Birth</span>
+<textarea id="offspring" name="offspring" rows="4" class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary px-3 py-2" placeholder="e.g., Ahmed - 15/03/2010, Fatima - 22/07/2015"></textarea>
+<p class="text-xs text-slate-500">Enter each child's name followed by their date of birth, one per line or separated by commas</p>
+</label>
+</div>
+</div>
+<!-- Summary -->
+<div class="bg-white dark:bg-[#1A2633] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">summarize</span>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Summary Code</h3>
+</div>
+<div class="p-6">
+<label class="flex flex-col gap-1.5">
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Summary <span class="text-red-500">*</span></span>
+<input id="summary" name="summary" required class="form-input w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:border-primary focus:ring-primary h-10 px-3" placeholder="IMA-PROGENITOR-COMPOUND-FATHER-SELF" type="text"/>
+<p class="text-xs text-slate-500 mt-1">Format: IMA-[Progenitor]-[Compound]-[Father]-[Your Name]<br/>Example: IMA-Kareem-Oke Yara-Rasheed-Kamal</p>
+</label>
+</div>
+</div>
+<div class="flex justify-end gap-4 py-6">
+<a href="index.html" class="px-6 py-2.5 text-sm font-bold text-slate-600 dark:text-slate-300 bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                        Cancel
+                    </a>
+<button type="button" onclick="submitForm()" class="px-6 py-2.5 text-sm font-bold text-white bg-primary rounded-lg hover:bg-blue-600 shadow-lg shadow-blue-500/30 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">send</span>
+                        Submit Registration
+                    </button>
+</div>
+</form>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+// Mobile sidebar toggle
+function toggleMobileSidebar() {
+    const sidebar = document.getElementById('mobileSidebar');
+    const overlay = document.getElementById('mobileSidebarOverlay');
+    sidebar.classList.toggle('-translate-x-full');
+    overlay.classList.toggle('hidden');
+}
+
+function submitForm() {
+    const form = document.getElementById('memberForm');
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+    
+    const formData = {
+        email: document.getElementById('email').value,
+        progenitor: document.getElementById('progenitor').value,
+        compound: document.getElementById('compound').value,
+        name: document.getElementById('name').value,
+        middleName: document.getElementById('middleName').value,
+        fatherName: document.getElementById('fatherName').value,
+        motherName: document.getElementById('motherName').value,
+        dob: document.getElementById('dob').value,
+        location: document.getElementById('location').value,
+        education: document.getElementById('education').value,
+        phone: document.getElementById('phone').value,
+        occupation: document.getElementById('occupation').value,
+        spouses: document.getElementById('spouses').value,
+        offspring: document.getElementById('offspring').value,
+        summary: document.getElementById('summary').value
+    };
+    
+    // Store in localStorage for demo
+    localStorage.setItem('latestMember', JSON.stringify(formData));
+    
+    // Show success message
+    alert('Family member registration submitted successfully!\\n\\nSummary: ' + formData.summary);
+    
+    // Redirect to profile page
+    window.location.href = 'profile.html';
+}
+</script>
+<script type="module" src="add-member.js"></script>
+</body></html>
+

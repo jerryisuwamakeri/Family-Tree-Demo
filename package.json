@@ -1,0 +1,21 @@
+{
+  "name": "imam-abdullahi-maliki-family-tree",
+  "version": "1.0.0",
+  "description": "Imam Abdullahi Maliki Family Tree Application",
+  "scripts": {
+    "build": "tsc && node build.js",
+    "watch": "tsc --watch",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "family-tree",
+    "genealogy",
+    "nigeria",
+    "islamic"
+  ],
+  "author": "",
+  "license": "MIT"
+}
